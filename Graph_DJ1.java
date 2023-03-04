@@ -1,7 +1,8 @@
-package he;
+package dummy;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ public class Graph_DJ1 {
 		// TODO Auto-generated method stub
 		Scanner sc=new Scanner(System.in);
 		int N=sc.nextInt(), M=sc.nextInt();
-		ArrayList<Node> al[]=new ArrayList[N];
+		ArrayList<Node> al[]=new ArrayList[N+1];
 		for(int i=0; i<M; i++) {
 			int x=sc.nextInt(), y=sc.nextInt(), w=sc.nextInt();
 			if(al[x]==null)
@@ -24,37 +25,82 @@ public class Graph_DJ1 {
 		int dist[]=new int[N];
 		Boolean vis[]=new Boolean[N];
 		for(int i=0; i<N; i++) {
-			dist[i]=Integer.MAX_VALUE;
+			dist[i]=1000000000;
 			vis[i]=false;
 		}
-		HashSet<Node> pq=new HashSet<>();
+		dist[0]=0;
+		PriorityQueue<Node> pq=new PriorityQueue<>();
 		pq.add(new Node(1, 0));
 		while(!pq.isEmpty()) {
-			Node n=pq.iterator().next();
+			//System.out.println("In: Before- "+pq);
+			Iterator<Node> itr=pq.iterator();
+			Node n=	itr.next(); itr.remove();
+			//System.out.println("In: After- "+pq);
 			int x=n.y, w=n.w;
-			if(vis[x]==true)
+			if(vis[x-1]==true)
 				continue;
+			vis[x-1]=true;
+			//System.out.println("OuterLoop: X- "+x);
 			for(Node nn:al[x]) {
-				if(dist[x]+w<dist[nn.y]) {
-					dist[nn.y]=dist[x]+w;
-					pq.add(new Node(nn.y, dist[nn.y]));
+				int y=nn.y, w1=nn.w;
+				//System.out.println("\tInnerLoop: Node- "+nn);
+				if(dist[x-1]+w1<dist[y-1]) {
+					dist[y-1]=dist[x-1]+w1;
+					pq.add(new Node(y, dist[y-1]));
 				}
 					
 			}
 		}
+		for(int i=0; i<N; i++)
+			System.out.print(dist[i]+ " ");
+		
 			
 	}
 
 }
-class Node implements Comparable<Node>{
-	int y, w;
+class Node implements Comparable<Node> {
+	Integer y, w;
 	Node(int y, int w){
 		this.y=y;
 		this.w=w;
 	}
+	/*
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((w == null) ? 0 : w.hashCode());
+		result = prime * result + ((y == null) ? 0 : y.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Node other = (Node) obj;
+		if (w == null) {
+			if (other.w != null)
+				return false;
+		} else if (!w.equals(other.w))
+			return false;
+		if (y == null) {
+			if (other.y != null)
+				return false;
+		} else if (!y.equals(other.y))
+			return false;
+		return true;
+	}
+	*/
 	@Override
 	public int compareTo(Node node) {
+		return this.w.compareTo(node.w);
+	}
+	public String toString(){
+		return "Y: "+this.y+"--W: "+this.w;
 		
-		return node.w < this.w? 1:-1;
 	}
 }
