@@ -1,0 +1,40 @@
+/**
+ *	Author: G1
+ *	Description: 
+ */
+
+#include <bits/stdc++.h>
+
+#define sl(n) scanf("%lld", &n)
+#define si(n) scanf("%d", &n)
+#define ss(n) scanf("%s", n)
+#define pi(n) printf("%d", n)
+#define pl(n) printf("%lld\n", n)
+#define ps(n) printf("%s", n)
+#define p printf(" ")
+#define pn printf("\n")
+#define rep(j,n) for(int i=j; i<n; ++i)
+#define ll  long long
+#define MP make_pair 
+#define MAX 999999999
+using namespace std;
+typedef pair<ll, pair<ll, ll> > PPI;
+
+//------VARIABLES------
+int t;
+ll n,a,b;
+//---------------------
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	si(t);
+	while(t--) {
+		sl(a);sl(b);sl(n);
+		if(n%b==0)
+			pl(n/b);
+		else 
+			pl(n);
+		pn;
+	}
+	return 0;
+}
